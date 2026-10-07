@@ -1,0 +1,17 @@
+{
+  "name": "trace-x",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev -- --host 0.0.0.0",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build:frontend": "npm --prefix frontend run build",
+    "build": "npm run build:frontend",
+    "lint:frontend": "npm --prefix frontend run lint",
+    "lint": "npm run lint:frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

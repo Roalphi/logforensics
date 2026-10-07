@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:4000
+    ports:
+      - '5173:80'
+    depends_on:
+      - backend
+    networks:
+      - trace-x-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '4000:4000'
+    environment:
+      PORT: 4000
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      MONGO_URI: mongodb://mongo:27017/trace-x
+    depends_on:
+      - mongo
+    networks:
+      - trace-x-network
+
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - trace-x-network
+
+networks:
+  trace-x-network:
+    driver: bridge
+
+volumes:
+  mongo-data:

@@ -1,0 +1,54 @@
+name: TRACE-X CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install root dependencies
+        run: npm install
+
+      - name: Install frontend dependencies
+        run: npm --prefix frontend install
+
+      - name: Install backend dependencies
+        run: npm --prefix backend install
+
+      - name: Lint frontend
+        run: npm --prefix frontend run lint
+
+      - name: Run frontend unit tests
+        run: npm --prefix frontend exec vitest run
+
+      - name: Run backend smoke tests
+        run: node --test backend/**/*.test.js
+
+      - name: Build frontend
+        run: npm --prefix frontend run build
+
+      - name: Build Docker images
+        run: docker build -t trace-x-frontend ./frontend && docker build -t trace-x-backend ./backend
+
+      - name: Validate docker compose
+        run: docker compose config
+
+      - name: Security scan
+        run: npm audit --prefix frontend && npm audit --prefix backend

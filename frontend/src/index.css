@@ -1,0 +1,46 @@
+:root {
+  font-family: Inter, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #efeae2;
+  background: #090b0d;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  min-height: 100%;
+  background: #090b0d;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(130, 66, 58, 0.18), transparent 28%),
+    linear-gradient(180deg, #090b0d 0%, #111417 100%);
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  transition: all 0.2s ease;
+}
+
+a {
+  color: inherit;
+}
+
+h1, h2, h3, h4, p {
+  margin-top: 0;
+}
+
